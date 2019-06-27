@@ -1,0 +1,103 @@
+version: '3.7'
+
+services:
+  app:
+    image: unipart/rail-suitecrm
+    build:
+      context: .
+      dockerfile: ./containers/suitecrm/Dockerfile
+    volumes:
+      - ./app:/var/www/html
+      - ./etc/dev/dev.php.ini:/usr/local/etc/php/conf.d/custom-php-ext.ini
+      - ./volumes/app/private:/var/www/private
+      - ./volumes/app/sessions:/var/www/sessions
+      - ./volumes/app/logs/suitecrm:/var/log/suitecrm
+      - ./volumes/app/logs/apache2:/var/log/apache2
+      - ./volumes/app/logs/cron:/var/log/cron
+      - ./volumes/app/logs/php:/var/log/php
+      - ./volumes/app/logs/supervisord:/var/log/supervisord
+    ports:
+      - "${APP_HTTP_PORT}:80"
+    environment:
+      - APP_DOMAIN_NAME=${DOMAIN_NAME}
+      - APP_USE_SSL=${USE_SSL}
+      - APACHE_SERVER_ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+      - APACHE_ERROR_LOG=/var/log/apache2/error.log
+      - APACHE_ACCESS_LOG=/var/log/apache2/access.log
+      - CRON_LOG_FILE=/var/log/cron/cron.log
+      - COMPOSER_ALLOW_SUPERUSER=1
+      - XDEBUG_ID_KEY=PHPSTORM
+      - XDEBUG_DEFAULT_ENABLE=0
+      - XDEBUG_REMOTE_ENABLE=1
+      - XDEBUG_REMOTE_AUTOSTART=0
+      - XDEBUG_REMOTE_CONNECT_BACK=0
+      - XDEBUG_REMOTE_PORT=9000
+      - XDEBUG_PROFILER_ENABLE=0
+      - DOCKER_HOST_IP=
+    links:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.3.15
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWD}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_USER_PASSWD}
+      - MYSQL_DATABASE=${DB_NAME}
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "${PHPMYADMIN_HTTP_PORT}:80"
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_PORT=${DB_PORT}
+      - PMA_USER=root
+      - PMA_PASSWORD=${DB_ROOT_PASSWD}
+    links:
+      - mariadb
+
+  composer:
+    image: eclipsehv/cli-php:7.2
+    entrypoint: ['composer']
+    volumes:
+      - ./:/app
+
+  composer_app:
+    image: eclipsehv/cli-php:7.2
+    entrypoint: ['composer']
+    volumes:
+      - ./app:/app
+
+  behat:
+    image: eclipsehv/cli-php:7.2
+    entrypoint: ['./vendor/bin/behat']
+    command: ['--version']
+    volumes:
+      - ./:/app
+    links:
+      - selenium
+      - novnc
+
+  selenium:
+    image: selenium/standalone-chrome-debug:3.11.0-californium
+    volumes:
+      - ./volumes/selenium/upload:/upload
+    environment:
+      - VNC_NO_PASSWORD=1
+      - SCREEN_WIDTH=1440 #1360 #1200 #900
+      - SCREEN_HEIGHT=900 #768 #675
+    ports:
+      - 4444:4444
+      - 5900:5900
+
+  novnc:
+    image: javanile/novnc
+    environment:
+      - REMOTE_HOST=localhost
+      - REMOTE_PORT=5900
+    ports:
+      - "${NOVNC_HTTP_PORT}:8081"
+    links:
+      - selenium

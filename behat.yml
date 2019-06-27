@@ -1,0 +1,16 @@
+default:
+  suites:
+    LocalInstall:
+      paths: ['%paths.base%/features/Suites/LocalInstall/']
+      contexts: ['FeaturesContext']
+    RemoteInstall:
+      paths: ['%paths.base%/features/Suites/RemoteInstall/']
+      contexts: ['FeaturesContext']
+
+  extensions:
+    Behat\MinkExtension:
+      browser_name: chrome
+      default_session: selenium2
+      base_url: http://app
+      selenium2:
+        wd_host: http://selenium:4444/wd/hub

@@ -1,0 +1,12 @@
+## Jetbrains:
+.idea/
+
+## App
+!.gitkeep
+app/
+vendor/
+volumes/
+
+.env
+docker-compose.yml
+docker-compose.uat.yml
