@@ -4,11 +4,11 @@ An easy way to manage deployment into development, UAT or staging environments f
 
 ## Installation
 
-Before installation, have Prerequisites fulfilled before selecting and running appropriate type of installation. 
+Before installation, have Prerequisites fulfilled before selecting and running appropriate type of installation.
 
 ### Prerequisites
 
-1. In order to run this repo you should use a pc with a linux operative system or a mac, and you should ensure to have installed the following commands:
+1. In order to run this repo you should use a pc with a GNU/Linux Operative System and you should ensure to have installed the following commands:
     - curl
     - unzip
     - [docker](https://docs.docker.com/install/ "Install Docker CE") 
