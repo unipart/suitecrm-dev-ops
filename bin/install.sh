@@ -9,8 +9,8 @@
 # VARIABLES
 #########################
 DESTINATION_ENV="DEV"
-ZIP_FILE_URL="https://suitecrm.com/files/160/SuiteCRM-7.10/431/SuiteCRM-7.10.17.zip"
-ZIP_FILE_NAME="$(date +"%F_%T")_suitecrm.zip"
+ZIP_FILE_URL="https://suitecrm.com/files/160/SuiteCRM-7.10/444/SuiteCRM-7.10.18.zip"
+ZIP_FILE_NAME="$(date +"%F_%H%M%S")_suitecrm.zip"
 OVERRIDE=0
 PROJECT_DIR=$( pwd )
 DOCKER_COMPOSE_CMD=""
@@ -19,30 +19,30 @@ BEHAT_SUITE=""
 #########################
 # FUNCTIONS
 #########################
-function print_help() {
-    echo ""
-    echo "Perform a fresh installation of SuiteCRM"
-    echo ""
+function print_help {
+    echo
+    echo "Perform a fresh installation of SuiteCRM."
+    echo
     echo "SYNOPSIS"
     echo "       ./install.sh [-efhop]"
-    echo ""
+    echo
     echo "COMMAND-LINE OPTIONS"
-    echo ""
+    echo
     echo "       -e --environment=DEV|UAT"
     echo "              Destination environment, default value: DEV"
-    echo ""
+    echo
     echo "       -f --file-url=URL"
     echo "              SuiteCRM installation file zip url, default behaviour: download the last lts version"
-    echo ""
+    echo
     echo "       -h --help"
     echo "              Print this help"
-    echo ""
+    echo
     echo "       -o --override"
     echo "              Delete the application directory and override with the new installation files"
-    echo ""
+    echo
     echo "       -p --project-dir=PATH"
     echo "              Project directory absolute path, if not set it will take the pwd"
-    echo ""
+    echo
 }
 
 #########################
@@ -70,20 +70,20 @@ while [ "$1" != "" ]; do
     shift
 done
 
-echo ""
+echo
 echo "Perform a fresh SuiteCRM install... STARTED"
 
 if [ ! -x "$(command -v curl)" ]; then
-    echo ""
+    echo
     echo 'Perform a fresh SuiteCRM install... ERROR: curl command is not installed in the system'
-    echo ""
+    echo
     exit 1
 fi
 
 if [ ! -x "$(command -v unzip)" ]; then
-    echo ""
+    echo
     echo 'Perform a fresh SuiteCRM install... ERROR: unzip command is not installed in the system'
-    echo ""
+    echo
     exit 1
 fi
 
@@ -97,7 +97,7 @@ case "${DESTINATION_ENV}" in
         BEHAT_SUITE=RemoteInstall
         ;;
     *)
-        echo ""
+        echo
         echo "Perform a fresh SuiteCRM install... ERROR: Invalid destination environment value"
         print_help
         exit 1
@@ -105,11 +105,11 @@ case "${DESTINATION_ENV}" in
 esac
 
 if [ ! -d "${PROJECT_DIR}" ]; then
-    echo ""
+    echo
     echo "Perform a fresh SuiteCRM install... ERROR: Invalid <PROJECT_DIR>"
     echo "<PROJECT_DIR> must be a valid directory and must be the project root one"
     echo "<PROJECT_DIR> provided: ${PROJECT_DIR}"
-    echo ""
+    echo
     exit 1
 fi
 
@@ -120,36 +120,36 @@ if [ -f "${PROJECT_DIR}/app/suitecrm_version.php" ]; then
         mkdir ${PROJECT_DIR}/app/
         mv ${PROJECT_DIR}/.gitkeep ${PROJECT_DIR}/app/.gitkeep
     else
-        echo ""
+        echo
         echo "Performing SuiteCRM fresh install... STOPPED: CRM files are already present in application volume"
         echo "Select -o or --override to substitute the old files with new one"
-        echo ""
+        echo
         exit 0
     fi
 fi
 
 ${DOCKER_COMPOSE_CMD} down
 
-echo ""
+echo
 echo "Performing SuiteCRM fresh install... Executed docker-compose down"
 
 if [ ! -f "./vendor/bin/behat" ]; then
     ${DOCKER_COMPOSE_CMD} run --rm composer install
 
-    echo ""
+    echo
     echo "Performing SuiteCRM fresh install... Installed behat"
 fi
 
 curl -L "${ZIP_FILE_URL}" -o ${ZIP_FILE_NAME}
 
-echo ""
+echo
 echo "Perform a fresh SuiteCRM install... Downloaded SuiteCRM zip file"
 
 if [ ! -f "${ZIP_FILE_NAME}" ]; then
-    echo ""
+    echo
     echo "Perform a fresh SuiteCRM install...  ERROR: download failed"
     echo "<FILE_URL> provided: ${ZIP_FILE_URL}"
-    echo ""
+    echo
     exit 1
 fi
 
@@ -161,21 +161,21 @@ rm -rf ${PROJECT_DIR}/app/SuiteCRM-7.*/
 
 rm -f ${ZIP_FILE_NAME}
 
-echo ""
+echo
 echo "Perform a fresh SuiteCRM install... Extracted SuiteCRM zip file"
 
 ${DOCKER_COMPOSE_CMD} up -d
 
-echo ""
+echo
 echo "Perform a fresh SuiteCRM install... Started containers"
 
 sleep 45
 
-echo ""
+echo
 echo "Perform a fresh SuiteCRM install... Running behat installation script"
 
 ${DOCKER_COMPOSE_CMD} run --rm behat --suite ${BEHAT_SUITE}
 
-echo ""
+echo
 echo "Perform a fresh SuiteCRM install... Successfully completed"
 echo""
