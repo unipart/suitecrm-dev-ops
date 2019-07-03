@@ -89,7 +89,7 @@ services:
       - SCREEN_WIDTH=1440 #1360 #1200 #900
       - SCREEN_HEIGHT=900 #768 #675
     ports:
-      - "${NOVNC_HTTP_PORT}:5900"
+      - "${NOVNC_PORT}:5900"
 
   novnc:
     image: javanile/novnc
