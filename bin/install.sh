@@ -175,6 +175,10 @@ echo "Perform a fresh SuiteCRM install... Running behat installation script"
 
 ${DOCKER_COMPOSE_CMD} run --rm behat --suite ${BEHAT_SUITE}
 
+if [ "${DESTINATION_ENV}" == "DEV" ]; then
+    ${DOCKER_COMPOSE_CMD} run --rm behat --suite PostLocalInstall
+fi
+
 echo
 echo "Perform a fresh SuiteCRM install... Successfully completed"
 echo""

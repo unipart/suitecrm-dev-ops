@@ -1,4 +1,4 @@
-Feature: Install
+Feature: Perform remote install
   In order to use SuiteCRM
   As a developer or a tester
   I need to perform a fresh installation

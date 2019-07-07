@@ -35,4 +35,16 @@ class FeaturesContext extends MinkContext
             ->click();
     }
 
+    /**
+     * @When I click on id :arg1
+     */
+    public function iClickOnId($arg1)
+    {
+        $this
+            ->getSession()
+            ->getPage()
+            ->find('css', '#' . $arg1)
+            ->click();
+    }
+
 }
