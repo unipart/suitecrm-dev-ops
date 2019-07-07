@@ -20,7 +20,6 @@ BEHAT_SUITE=""
 # FUNCTIONS
 #########################
 function print_help {
-    echo
     echo "Perform a fresh installation of SuiteCRM."
     echo
     echo "SYNOPSIS"
@@ -56,7 +55,7 @@ while [ "$1" != "" ]; do
         -f | --file-url )       shift
                                 ZIP_FILE_URL=$1
                                 ;;
-        -h | --help )           print_help
+        -h | --help )           print_help | less
                                 exit 0
                                 ;;
         -o | --override )       OVERRIDE=1
@@ -64,7 +63,7 @@ while [ "$1" != "" ]; do
         -p | --project-dir )    shift
                                 PROJECT_DIR=$1
                                 ;;
-        * )                     print_help
+        * )                     print_help | less
                                 exit 1
     esac
     shift
@@ -97,9 +96,9 @@ case "${DESTINATION_ENV}" in
         BEHAT_SUITE=RemoteInstall
         ;;
     *)
+        echo "Perform a fresh SuiteCRM install... ERROR: Invalid destination environment"
         echo
-        echo "Perform a fresh SuiteCRM install... ERROR: Invalid destination environment value"
-        print_help
+        print_help | less
         exit 1
         ;;
 esac
