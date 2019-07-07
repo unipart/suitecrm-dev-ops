@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: unipart/rail-suitecrm
+    image: unipart/local-suitecrm
     build:
       context: .
       dockerfile: ./containers/suitecrm/Dockerfile
