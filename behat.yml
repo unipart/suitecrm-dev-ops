@@ -3,6 +3,9 @@ default:
     LocalInstall:
       paths: ['%paths.base%/features/Suites/LocalInstall/']
       contexts: ['FeaturesContext']
+    PostLocalInstall:
+      paths: ['%paths.base%/features/Suites/PostLocalInstall/']
+      contexts: ['LoginContext']
     RemoteInstall:
       paths: ['%paths.base%/features/Suites/RemoteInstall/']
       contexts: ['FeaturesContext']
