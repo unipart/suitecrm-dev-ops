@@ -2,10 +2,9 @@ version: '3.7'
 
 services:
   app:
-    image: unipart/local-suitecrm
     build:
       context: .
-      dockerfile: ./containers/suitecrm/Dockerfile
+      dockerfile: ./containers/suitecrm/dev/Dockerfile
     volumes:
       - ./app:/var/www/html
       - ./etc/dev/dev.php.ini:/usr/local/etc/php/conf.d/custom-php-ext.ini

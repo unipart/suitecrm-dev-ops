@@ -2,35 +2,34 @@ version: '3.7'
 
 services:
   app:
-    image: unipart/local-suitecrm
     build:
       context: .
-      dockerfile: ./containers/suitecrm/Dockerfile
+      dockerfile: ./containers/suitecrm/uat/Dockerfile
     volumes:
       - ./app:/var/www/html
       - ./etc/uat/uat.php.ini:/usr/local/etc/php/conf.d/custom-php-ext.ini
-      - ./volumes/private:/var/www/private
-      - ./volumes/sessions:/var/www/sessions
-      - ./volumes/logs/suitecrm:/var/log/apache2/suitecrm
-      - ./volumes/logs/apache2:/var/log/apache2
-      - ./volumes/logs/cron:/var/log/cron
-      - ./volumes/logs/php:/var/log/php
-      - ./volumes/logs/supervisord:/var/log/supervisord
-      - ./volumes/letsencrypt:/etc/letsencrypt
+      - ./volumes/app/private:/var/www/private
+      - ./volumes/app/sessions:/var/www/sessions
+      - ./volumes/app/logs/suitecrm:/var/log/suitecrm
+      - ./volumes/app/logs/apache2:/var/log/apache2
+      - ./volumes/app/logs/cron:/var/log/cron
+      - ./volumes/app/logs/php:/var/log/php
+      - ./volumes/app/logs/supervisord:/var/log/supervisord
+      - ./volumes/app/letsencrypt:/etc/letsencrypt
     ports:
       - 80:80
       - 443:443
     environment:
-      - APP_DOMAIN_NAME=${APP_DOMAIN_NAME}
-      - APP_USE_SSL=${APP_USE_SSL}
+      - APP_DOMAIN_NAME=${DOMAIN_NAME}
+      - APP_USE_SSL=${USE_SSL}
       - APACHE_SERVER_ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}
       - APACHE_DOCUMENT_ROOT=/var/www/html
       - APACHE_ERROR_LOG=/var/log/apache2/error.log
       - APACHE_ACCESS_LOG=/var/log/apache2/access.log
       - APACHE_SSL_ERROR_LOG=/var/log/apache2/ssl_error.log
       - APACHE_SSL_ACCESS_LOG=/var/log/apache2/ssl_access.log
-      - SSL_CERTIFICATE_FILE=/etc/letsencrypt/live/${APP_DOMAIN_NAME}/fullchain.pem
-      - SSL_CERTIFICATE_KEY_FILE=/etc/letsencrypt/live/${APP_DOMAIN_NAME}/privkey.pem
+      - SSL_CERTIFICATE_FILE=/etc/letsencrypt/live/${DOMAIN_NAME}/fullchain.pem
+      - SSL_CERTIFICATE_KEY_FILE=/etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem
       - CRON_LOG_FILE=/var/log/cron/cron.log
       - COMPOSER_ALLOW_SUPERUSER=1
     links:
@@ -64,7 +63,6 @@ services:
       - ./:/app
     links:
       - selenium
-      - novnc
 
   selenium:
     image: selenium/standalone-chrome-debug:3.11.0-californium

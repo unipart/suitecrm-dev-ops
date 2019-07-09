@@ -19,7 +19,7 @@ Before installation, have Prerequisites fulfilled before selecting and running a
     Note[2]: If you're using a CentOS 7 or Fedora 30 O.S. you could use our init script placed into the bin/ folder to automatically install all the dependencies.
 
 1. Clone this repo from [github](https://github.com/unipart/suitecrm-dev-ops "Unipart Digital - SuiteCRM Dev Ops repository"):<br/>
-    `git clone `
+    `git clone https://github.com/unipart/suitecrm-dev-ops.git`
     
 1. Move into the project folder
 

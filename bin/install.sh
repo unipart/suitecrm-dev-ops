@@ -9,8 +9,11 @@
 # VARIABLES
 #########################
 DESTINATION_ENV="DEV"
-ZIP_FILE_URL="https://suitecrm.com/files/160/SuiteCRM-7.10/444/SuiteCRM-7.10.18.zip"
+SUITECRM_FILE_NAME="SuiteCRM-7.10.18.zip"
+ZIP_FILE_URL="https://suitecrm.com/files/160/SuiteCRM-7.10/444/${SUITECRM_FILE_NAME}"
 ZIP_FILE_NAME="$(date +"%F_%H%M%S")_suitecrm.zip"
+ZIP_LOCAL_FILE="storage/suitecrm/${SUITECRM_FILE_NAME}"
+ZIP_USE_REMOTE=0
 OVERRIDE=0
 PROJECT_DIR=$( pwd )
 DOCKER_COMPOSE_CMD=""
@@ -54,6 +57,7 @@ while [ "$1" != "" ]; do
                                 ;;
         -f | --file-url )       shift
                                 ZIP_FILE_URL=$1
+                                ZIP_USE_REMOTE=1
                                 ;;
         -h | --help )           print_help | less
                                 exit 0
@@ -139,26 +143,34 @@ if [ ! -f "./vendor/bin/behat" ]; then
     echo "Performing SuiteCRM fresh install... Installed behat"
 fi
 
-curl -L "${ZIP_FILE_URL}" -o ${ZIP_FILE_NAME}
+if [ ${ZIP_USE_REMOTE} == 1 ] || [ ! -f "${PROJECT_DIR}/${ZIP_LOCAL_FILE}" ]; then
+    curl -L "${ZIP_FILE_URL}" -o ${ZIP_FILE_NAME}
 
-echo
-echo "Perform a fresh SuiteCRM install... Downloaded SuiteCRM zip file"
+    echo
+    echo "Perform a fresh SuiteCRM install... Downloaded SuiteCRM zip file"
 
-if [ ! -f "${ZIP_FILE_NAME}" ]; then
-    echo
-    echo "Perform a fresh SuiteCRM install...  ERROR: download failed"
-    echo "<FILE_URL> provided: ${ZIP_FILE_URL}"
-    echo
-    exit 1
+    if [ ! -f "${ZIP_FILE_NAME}" ]; then
+        echo
+        echo "Perform a fresh SuiteCRM install...  ERROR: download failed"
+        echo "<FILE_URL> provided: ${ZIP_FILE_URL}"
+        echo
+        exit 1
+    fi
+
+    unzip ${ZIP_FILE_NAME} -d ${PROJECT_DIR}/app
+
+    mv ${PROJECT_DIR}/app/SuiteCRM-7.*/* ${PROJECT_DIR}/app/
+
+    rm -rf ${PROJECT_DIR}/app/SuiteCRM-7.*/
+
+    rm -f ${ZIP_FILE_NAME}
+else
+    unzip ${PROJECT_DIR}/${ZIP_LOCAL_FILE} -d ${PROJECT_DIR}/app
+
+    mv ${PROJECT_DIR}/app/SuiteCRM-7.*/* ${PROJECT_DIR}/app/
+
+    rm -rf ${PROJECT_DIR}/app/SuiteCRM-7.*/
 fi
-
-unzip ${ZIP_FILE_NAME} -d ${PROJECT_DIR}/app
-
-mv ${PROJECT_DIR}/app/SuiteCRM-7.*/* ${PROJECT_DIR}/app/
-
-rm -rf ${PROJECT_DIR}/app/SuiteCRM-7.*/
-
-rm -f ${ZIP_FILE_NAME}
 
 echo
 echo "Perform a fresh SuiteCRM install... Extracted SuiteCRM zip file"
