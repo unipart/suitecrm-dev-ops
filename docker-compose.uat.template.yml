@@ -9,14 +9,14 @@ services:
     volumes:
       - ./app:/var/www/html
       - ./etc/uat/uat.php.ini:/usr/local/etc/php/conf.d/custom-php-ext.ini
-      - ./volumes/private:/var/www/private
-      - ./volumes/sessions:/var/www/sessions
-      - ./volumes/logs/suitecrm:/var/log/apache2/suitecrm
-      - ./volumes/logs/apache2:/var/log/apache2
-      - ./volumes/logs/cron:/var/log/cron
-      - ./volumes/logs/php:/var/log/php
-      - ./volumes/logs/supervisord:/var/log/supervisord
-      - ./volumes/letsencrypt:/etc/letsencrypt
+      - ./volumes/app/private:/var/www/private
+      - ./volumes/app/sessions:/var/www/sessions
+      - ./volumes/app/logs/suitecrm:/var/log/suitecrm
+      - ./volumes/app/logs/apache2:/var/log/apache2
+      - ./volumes/app/logs/cron:/var/log/cron
+      - ./volumes/app/logs/php:/var/log/php
+      - ./volumes/app/logs/supervisord:/var/log/supervisord
+      - ./volumes/app/letsencrypt:/etc/letsencrypt
     ports:
       - 80:80
       - 443:443
