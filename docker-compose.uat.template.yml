@@ -64,7 +64,6 @@ services:
       - ./:/app
     links:
       - selenium
-      - novnc
 
   selenium:
     image: selenium/standalone-chrome-debug:3.11.0-californium
