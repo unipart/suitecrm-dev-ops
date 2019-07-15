@@ -118,7 +118,8 @@ If you want to use this skeleton repo to load your SuiteCRM instance, please use
 | bin/init_centos7_user.sh | Bash script to initialize a clean version of CentOS 7 from a system user. <br/>**Note (1):** Please ensure that the user you're using has sudo rights. <br/>**Note (2):** In order to ensure that all the environment variables are correctly set up, after executing the script you'll need to logout and log back in with the docker user. |
 | bin/init_fedora30_user.sh | Bash script to initialize a clean version of Fedora 30 from a system user. <br/>**Note (1):** Please ensure that the user you're using has sudo rights. <br/>**Note (2):** In order to ensure that all the environment variables are correctly set up, after executing the script you'll need to logout and log back in with the docker user. |
 | bin/install.sh | Perform a fresh installation of SuiteCRM. |
-| containers/suitecrm/Dockerfile | SuiteCRM container dockerfile. |
+| containers/suitecrm/dev/Dockerfile | SuiteCRM Development container dockerfile. |
+| containers/suitecrm/uat/Dockerfile | SuiteCRM User Acceptance Testing container dockerfile. |
 | etc/ | SuiteCRM Configuration folder, used also to override configuration files within app/ like conf.php, conf_override.php, etc. | 
 | etc/dev/.env.dev.example | Docker compose .env file for development environment. |
 | etc/dev/dev.php.ini | Php.ini file for development environment. |
@@ -127,6 +128,7 @@ If you want to use this skeleton repo to load your SuiteCRM instance, please use
 | features/ | Behat features folder. |
 | features/bootstrap/ | Behat Context folder. |
 | features/Suites/ | Behat Suites folder, it is used to collect features files ordered in different subdirectory per suite. |
+| storage/suitecrm/SuiteCRM-7.18.*.zip | Latest SuiteCRM LTS installation zip file. |
 | volumes/ | Volume folder for docker based projects. |
 | behat.yml | Behat configuration file. |
 | composer.json | Project description. |
