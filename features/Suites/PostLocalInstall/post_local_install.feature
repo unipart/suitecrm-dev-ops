@@ -10,5 +10,4 @@ Feature: Post local install
     And I fill in "list_max_entries_per_page" with "21"
     And I fill in "list_max_entries_per_page" with "20"
     When I press "Save"
-    And I wait milliseconds "1000"
-    Then I should see "ADMINISTRATION"
+    Then I wait till "30000" or to see "ADMINISTRATION"
