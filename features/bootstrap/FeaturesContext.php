@@ -1,27 +1,18 @@
 <?php
-
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\MinkExtension\Context\MinkContext;
-use PHPUnit\Framework\TestCase;
-
+/**
+ * Created by PhpStorm.
+ * User: Riccardo De Leo
+ */
 
 /**
  * Defines application features from the specific context.
  */
-class FeaturesContext extends MinkContext
+class FeaturesContext extends WaitContext
 {
-    static private $salt = '9D6KAFNHTM68UM5FH4J2J3K6ZFGQVNDF6';
-
     /**
-     * @Given I wait milliseconds :arg1
+     * @var string
      */
-    public function iWaitMilliseconds($arg1)
-    {
-        $this
-            ->getSession()
-            ->wait($arg1);
-        return;
-    }
+    static private $salt = '9D6KAFNHTM68UM5FH4J2J3K6ZFGQVNDF6';
 
     /**
      * @When I click on the element :arg1 within the element id :arg2
