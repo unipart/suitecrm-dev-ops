@@ -5,13 +5,13 @@ Feature: Perform local installation
 
   Scenario: Install successfully SuiteCRM
     Given I am on "/"
-    Then I wait till "30000" or to see "Next"
+    Then I wait till "50000" or to see "Next"
     And I check "setup_license_accept"
     And I wait milliseconds "500"
     And I press "Next"
-    And I wait till "30000" or to see "System Environment"
+    And I wait till "50000" or to see "System Environment"
     And I press "Next"
-    And I wait till "30000" or to see "Site Security"
+    And I wait till "50000" or to see "Site Security"
     And I select "provide" from "dbUSRData"
     And I wait milliseconds "1000"
     And I fill in the following:
@@ -33,6 +33,6 @@ Feature: Perform local installation
       | default_currency_symbol  | £   |
       | default_currency_iso4217  | GBP   |
     And I press "Next"
-    And I wait till "30000" or to see "is now complete!"
+    And I wait till "50000" or to see "is now complete!"
     When I press "Next"
-    Then I wait till "30000" or to see "Supercharged by SuiteCRM"
+    Then I wait till "50000" or to see "Supercharged by SuiteCRM"
