@@ -9,7 +9,7 @@
 # VARIABLES
 #########################
 DESTINATION_ENV="DEV"
-SUITECRM_FILE_NAME="SuiteCRM-7.10.18.zip"
+SUITECRM_FILE_NAME="SuiteCRM-7.10.22.zip"
 ZIP_FILE_URL="https://suitecrm.com/files/160/SuiteCRM-7.10/444/${SUITECRM_FILE_NAME}"
 ZIP_FILE_NAME="$(date +"%F_%H%M%S")_suitecrm.zip"
 ZIP_LOCAL_FILE="storage/suitecrm/${SUITECRM_FILE_NAME}"
