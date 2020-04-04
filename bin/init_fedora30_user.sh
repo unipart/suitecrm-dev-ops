@@ -6,6 +6,8 @@
 # Note:        Please ensure your user has sudo capabilities
 #########################
 
+DOCKER_COMPOSE_VERSION=1.25.4
+
 sudo dnf remove docker \
                 docker-client \
                 docker-client-latest \
@@ -40,6 +42,6 @@ sudo systemctl restart docker
 
 newgrp docker
 
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose

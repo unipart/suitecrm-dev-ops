@@ -6,6 +6,8 @@
 # Note:        Please ensure to change the place card <SPECIFY USER HERE> to the user that will run docker
 #########################
 
+DOCKER_COMPOSE_VERSION=1.25.4
+
 yum update -y
 
 yum remove -y docker \
@@ -30,6 +32,6 @@ systemctl start docker
 
 usermod -aG docker <SPECIFY USER HERE>
 
-curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 chmod +x /usr/local/bin/docker-compose
